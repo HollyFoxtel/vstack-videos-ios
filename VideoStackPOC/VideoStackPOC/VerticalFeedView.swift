@@ -15,8 +15,9 @@ struct Feed: Codable {
 
 struct VerticalFeedView: View {
     @State private var feeds: [Feed] = []
-    private let manager = VideoPlayerManager()
     @State private var fullyVisibleIndices: Set<Int> = []
+
+    private let manager = VideoPlayerManager()
 
     var body: some View {
             ScrollView(.vertical) {
@@ -44,23 +45,7 @@ struct VerticalFeedView: View {
             .scrollTargetBehavior(.paging)
             .ignoresSafeArea()
             .onPreferenceChange(ViewOffsetKey.self) { values in
-                let screenBounds = UIScreen.main.bounds
-                let visible = values.filter { $0.frame.intersects(screenBounds) && isFullyVisible($0.frame, screenBounds)  }.map { $0.index }
-                let newVisibleIndices = Set(visible)
-
-                // Items that have just appeared
-                let appearedIndices = newVisibleIndices.subtracting(fullyVisibleIndices)
-                for index in appearedIndices {
-                    print("Item \(index) appeared")
-                    manager.activate(url: feeds[index].url)
-                }
-
-                // Items that have just disappeared
-                let disappearedIndices = fullyVisibleIndices.subtracting(newVisibleIndices)
-                for index in disappearedIndices {
-                    print("Item \(index) disappeared")
-                }
-                fullyVisibleIndices = newVisibleIndices
+                viewOffsetHandle(values: values)
             }
             .onAppear {
                 loadFeeds()
@@ -75,6 +60,26 @@ struct VerticalFeedView: View {
                 self.feeds = output
             }
         }
+    }
+
+    private func viewOffsetHandle(values: [ViewOffsetData]) {
+        let screenBounds = UIScreen.main.bounds
+        let visible = values.filter { $0.frame.intersects(screenBounds) && isFullyVisible($0.frame, screenBounds)  }.map { $0.index }
+        let newVisibleIndices = Set(visible)
+
+        // Items that have just appeared
+        let appearedIndices = newVisibleIndices.subtracting(fullyVisibleIndices)
+        for index in appearedIndices {
+            print("Item \(index) appeared")
+            manager.activate(url: feeds[index].url)
+        }
+
+        // Items that have just disappeared
+        let disappearedIndices = fullyVisibleIndices.subtracting(newVisibleIndices)
+        for index in disappearedIndices {
+            print("Item \(index) disappeared")
+        }
+        fullyVisibleIndices = newVisibleIndices
     }
 
     private func isFullyVisible(_ itemFrame: CGRect, _ screenBounds: CGRect) -> Bool {

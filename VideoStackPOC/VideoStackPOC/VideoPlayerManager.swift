@@ -30,10 +30,6 @@ final class VideoPlayerManager: ObservableObject {
         }
     }
 
-    func isPaused(url: URL) -> Bool {
-        players[url]?.rate == 0.0
-    }
-
     func activate(url: URL) {
         if url == currentUrl { return }
         if let currentUrl {
