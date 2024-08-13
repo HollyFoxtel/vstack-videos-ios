@@ -11,8 +11,7 @@ import SwiftUI
 struct VideoStackPOCApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-            
+            HomeView()
         }
     }
 }

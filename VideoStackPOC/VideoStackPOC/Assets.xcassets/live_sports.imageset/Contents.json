@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "live_sports.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
