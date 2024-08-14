@@ -17,6 +17,9 @@
 		D66A20302C634AE600853C44 /* response.json in Resources */ = {isa = PBXBuildFile; fileRef = D66A202F2C634AE600853C44 /* response.json */; };
 		D66A20322C634E5A00853C44 /* feed.json in Resources */ = {isa = PBXBuildFile; fileRef = D66A20312C634E5A00853C44 /* feed.json */; };
 		D66A20342C6355E900853C44 /* CustomVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66A20332C6355E900853C44 /* CustomVideoPlayerView.swift */; };
+		F64ED9F42C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F32C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift */; };
+		F64ED9F62C6D2CE900F7DFF2 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F52C6D2CE900F7DFF2 /* SidebarView.swift */; };
+		F64ED9F92C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F82C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift */; };
 		F6A14A712C6C3FA20048BF2F /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61709EB2C6C3D8C00386A77 /* HomeContentView.swift */; };
 		F6A14A722C6C3FA80048BF2F /* HeroHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A702C6C3E9A0048BF2F /* HeroHeaderView.swift */; };
 		F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */; };
@@ -30,6 +33,9 @@
 		F6A14A892C6C83340048BF2F /* LiveChannels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A852C6C83340048BF2F /* LiveChannels.swift */; };
 		F6A14A8B2C6CA1850048BF2F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A8A2C6CA1700048BF2F /* View+Extension.swift */; };
 		F6A14A942C6CA92B0048BF2F /* TileContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A932C6CA92B0048BF2F /* TileContainer.swift */; };
+		F6A14A972C6CDF1F0048BF2F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A962C6CDF1D0048BF2F /* HomeViewController.swift */; };
+		F6A14A992C6CDF930048BF2F /* MyViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A982C6CDF930048BF2F /* MyViewControllerRepresentable.swift */; };
+		F6A14A9B2C6CF0850048BF2F /* SidebarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A9A2C6CF0850048BF2F /* SidebarUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +51,9 @@
 		D66A20312C634E5A00853C44 /* feed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feed.json; sourceTree = "<group>"; };
 		D66A20332C6355E900853C44 /* CustomVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayerView.swift; sourceTree = "<group>"; };
 		F61709EB2C6C3D8C00386A77 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		F64ED9F32C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSidebarModifier.swift; sourceTree = "<group>"; };
+		F64ED9F52C6D2CE900F7DFF2 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		F64ED9F82C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollVisibilityModifier.swift; sourceTree = "<group>"; };
 		F6A14A702C6C3E9A0048BF2F /* HeroHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderView.swift; sourceTree = "<group>"; };
 		F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldSnappingScrollTargetBehavior.swift; sourceTree = "<group>"; };
 		F6A14A752C6C41F80048BF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -57,6 +66,9 @@
 		F6A14A862C6C83340048BF2F /* LiveAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAsset.swift; sourceTree = "<group>"; };
 		F6A14A8A2C6CA1700048BF2F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		F6A14A932C6CA92B0048BF2F /* TileContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileContainer.swift; sourceTree = "<group>"; };
+		F6A14A962C6CDF1D0048BF2F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		F6A14A982C6CDF930048BF2F /* MyViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		F6A14A9A2C6CF0850048BF2F /* SidebarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +104,7 @@
 				F6A14A922C6CA1D30048BF2F /* Common */,
 				F61709EA2C6C3D8800386A77 /* Home */,
 				D66A201B2C62FBB100853C44 /* VideoStackPOCApp.swift */,
+				F6A14A952C6CDEED0048BF2F /* SideMenu */,
 				D66A202F2C634AE600853C44 /* response.json */,
 				D66A20312C634E5A00853C44 /* feed.json */,
 				D66A201D2C62FBB100853C44 /* ContentView.swift */,
@@ -123,10 +136,30 @@
 				F6A14A772C6C4E080048BF2F /* Tabs.swift */,
 				F6A14A702C6C3E9A0048BF2F /* HeroHeaderView.swift */,
 				F61709EB2C6C3D8C00386A77 /* HomeContentView.swift */,
+				F64ED9F82C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift */,
 				F6A14A752C6C41F80048BF2F /* HomeView.swift */,
 				F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		F64ED9F22C6D2CA400F7DFF2 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				F6A14A9A2C6CF0850048BF2F /* SidebarUIView.swift */,
+				F6A14A982C6CDF930048BF2F /* MyViewControllerRepresentable.swift */,
+				F6A14A962C6CDF1D0048BF2F /* HomeViewController.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		F64ED9F72C6D2CF200F7DFF2 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				F64ED9F52C6D2CE900F7DFF2 /* SidebarView.swift */,
+				F64ED9F32C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		F6A14A7D2C6C54E20048BF2F /* Latest Minis */ = {
@@ -162,6 +195,15 @@
 				F6A14A8A2C6CA1700048BF2F /* View+Extension.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		F6A14A952C6CDEED0048BF2F /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				F64ED9F72C6D2CF200F7DFF2 /* SwiftUI */,
+				F64ED9F22C6D2CA400F7DFF2 /* UIKit */,
+			);
+			path = SideMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,11 +280,14 @@
 			files = (
 				F6A14A842C6C79E30048BF2F /* ShowChannels.swift in Sources */,
 				F6A14A822C6C6F1A0048BF2F /* ShowAsset.swift in Sources */,
+				F6A14A972C6CDF1F0048BF2F /* HomeViewController.swift in Sources */,
 				D66A202C2C63120900853C44 /* VideoView.swift in Sources */,
+				F64ED9F92C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift in Sources */,
 				F6A14A7F2C6C55350048BF2F /* MinisAsset.swift in Sources */,
 				F6A14A882C6C83340048BF2F /* LiveAsset.swift in Sources */,
 				F6A14A892C6C83340048BF2F /* LiveChannels.swift in Sources */,
 				F6A14A7A2C6C54820048BF2F /* LatestMinis.swift in Sources */,
+				F6A14A9B2C6CF0850048BF2F /* SidebarUIView.swift in Sources */,
 				F6A14A722C6C3FA80048BF2F /* HeroHeaderView.swift in Sources */,
 				D66A201E2C62FBB100853C44 /* ContentView.swift in Sources */,
 				F6A14A762C6C41F80048BF2F /* HomeView.swift in Sources */,
@@ -251,6 +296,9 @@
 				D66A201C2C62FBB100853C44 /* VideoStackPOCApp.swift in Sources */,
 				F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */,
 				D66A20342C6355E900853C44 /* CustomVideoPlayerView.swift in Sources */,
+				F64ED9F62C6D2CE900F7DFF2 /* SidebarView.swift in Sources */,
+				F6A14A992C6CDF930048BF2F /* MyViewControllerRepresentable.swift in Sources */,
+				F64ED9F42C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift in Sources */,
 				F6A14A942C6CA92B0048BF2F /* TileContainer.swift in Sources */,
 				F6A14A712C6C3FA20048BF2F /* HomeContentView.swift in Sources */,
 				F6A14A8B2C6CA1850048BF2F /* View+Extension.swift in Sources */,
