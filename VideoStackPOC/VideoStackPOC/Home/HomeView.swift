@@ -1,51 +1,58 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var selection: KayoTab = .home
-    let tabs: [KayoTab] = [.search, .home, .shows, .sports, .favourites]
-
+    @State var selection: String = KayoTab.home.id
+    
     var body: some View {
         TabView(selection: $selection) {
-            ForEach(tabs) { tab in
-                Tab(tab.description, systemImage: tab.icon, value: tab) {
-                    tab.detail()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+            PlaceHolderView(tab: KayoTab.search)
+                .tabItem { Label(KayoTab.search.description, systemImage: KayoTab.search.icon) }
+                .tag(KayoTab.search.id)
+                .toolbar(.hidden, for: .tabBar)
+            
+            HomeContentView()
+                .tabItem { Label(KayoTab.home.description, systemImage: KayoTab.home.icon) }
+                .tag(KayoTab.home.id)
+                .toolbar(.hidden, for: .tabBar)
+            
+            PlaceHolderView(tab: KayoTab.shows)
+                .tabItem { Label(KayoTab.shows.description, systemImage: KayoTab.shows.icon) }
+                .tag(KayoTab.shows.id)
+                .toolbar(.hidden, for: .tabBar)
+            
+            PlaceHolderView(tab: KayoTab.sports)
+                .tabItem { Label(KayoTab.sports.description, systemImage: KayoTab.sports.icon) }
+                .tag(KayoTab.sports.id)
+                .toolbar(.hidden, for: .tabBar)
+            
+            VerticalFeedView()
+                .tabItem { Label(KayoTab.favourites.description, systemImage: KayoTab.favourites.icon) }
+                .tag(KayoTab.favourites.id)
+                .toolbar(.hidden, for: .tabBar)
+            
+            Section("Settings") {
+                PlaceHolderView(tab: KayoTab.myKayo)
+                    .tabItem { Label(KayoTab.myKayo.description, systemImage: KayoTab.myKayo.icon) }
+                    .tag(KayoTab.myKayo.id)
+                    .toolbar(.hidden, for: .tabBar)
             }
-            
-            TabSection("Settings") {
-                  ForEach(AdditionTab.allCases) { libraryTab in
-                      Tab(libraryTab.description,
-                          systemImage: libraryTab.icon,
-                          value: KayoTab.library(libraryTab)
-                      ) {
-                          libraryTab.detail()
-                      }
-                  }
-              }
-            
-        }
-        .tabViewStyle(.sidebarAdaptable)
+        }.adaptiveSidebar(selectedItem: $selection)
     }
 }
 
-extension KayoTab {
-    func detail() -> AnyView {
-        switch self {
-        case .home: return HomeContentView().eraseToAnyView()
-        case .favourites: return VerticalFeedView().eraseToAnyView()
-        default:
-            return Label(description, systemImage: icon)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(color.opacity(0.4))
-                .eraseToAnyView()
-        }
+struct PlaceHolderView: View {
+    let title: String
+    let icon: String
+    let color: Color
+    
+    init(tab: TabItemProtocol) {
+        title = tab.description
+        icon = tab.icon
+        color = tab.color
     }
-}
-
-extension AdditionTab {
-    func detail() -> some View {
-        Label("Additional | \(rawValue)", systemImage: icon)
+    
+    var body: some View  {
+        Label(title, systemImage: icon)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(color.opacity(0.4))
     }
