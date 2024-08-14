@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum ShowAsset: String, CaseIterable, Identifiable {
+enum ShowAsset: String, AssetProtocol, Identifiable {
     case boxset
     case color
     case fletch

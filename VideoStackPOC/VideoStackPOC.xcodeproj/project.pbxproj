@@ -29,6 +29,7 @@
 		F6A14A882C6C83340048BF2F /* LiveAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A862C6C83340048BF2F /* LiveAsset.swift */; };
 		F6A14A892C6C83340048BF2F /* LiveChannels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A852C6C83340048BF2F /* LiveChannels.swift */; };
 		F6A14A8B2C6CA1850048BF2F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A8A2C6CA1700048BF2F /* View+Extension.swift */; };
+		F6A14A942C6CA92B0048BF2F /* TileContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A932C6CA92B0048BF2F /* TileContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		F6A14A852C6C83340048BF2F /* LiveChannels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChannels.swift; sourceTree = "<group>"; };
 		F6A14A862C6C83340048BF2F /* LiveAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAsset.swift; sourceTree = "<group>"; };
 		F6A14A8A2C6CA1700048BF2F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		F6A14A932C6CA92B0048BF2F /* TileContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		F61709EA2C6C3D8800386A77 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				F6A14A932C6CA92B0048BF2F /* TileContainer.swift */,
 				F6A14A802C6C6EF70048BF2F /* Shows */,
 				F6A14A872C6C83340048BF2F /* Live */,
 				F6A14A7D2C6C54E20048BF2F /* Latest Minis */,
@@ -248,6 +251,7 @@
 				D66A201C2C62FBB100853C44 /* VideoStackPOCApp.swift in Sources */,
 				F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */,
 				D66A20342C6355E900853C44 /* CustomVideoPlayerView.swift in Sources */,
+				F6A14A942C6CA92B0048BF2F /* TileContainer.swift in Sources */,
 				F6A14A712C6C3FA20048BF2F /* HomeContentView.swift in Sources */,
 				F6A14A8B2C6CA1850048BF2F /* View+Extension.swift in Sources */,
 				D66A202A2C6309A100853C44 /* VerticalFeedView.swift in Sources */,

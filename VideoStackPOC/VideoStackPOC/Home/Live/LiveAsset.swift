@@ -1,6 +1,10 @@
 import SwiftUI
 
-enum LiveAsset: String, CaseIterable, Identifiable {
+protocol AssetProtocol: CaseIterable, Identifiable {
+    var image: Image { get }
+}
+
+enum LiveAsset: String, AssetProtocol {
     case foxRed
     case foxGreen
     case espn

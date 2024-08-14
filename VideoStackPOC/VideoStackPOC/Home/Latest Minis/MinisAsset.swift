@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum MinisAsset: String, CaseIterable, Identifiable {
+enum MinisAsset: String, AssetProtocol, Identifiable {
     case nelly
     case panthers
     case rabbitohs
