@@ -21,6 +21,15 @@ class HomeViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Home", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.setImage(UIImage(systemName: "house.fill"), for: .normal)
+        button.tintColor = .white
+        button.contentHorizontalAlignment = .left
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        button.backgroundColor = UIColor(white: 0.1, alpha: 0.9)
+        button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -33,8 +42,13 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
-        view.clipsToBounds = true
+        
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "beach_landscape")
+        backgroundImage.contentMode = .scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
+        view.backgroundColor = .white
         
         setupScrollView()
         setupSidebar()
@@ -56,7 +70,7 @@ class HomeViewController: UIViewController {
         let focusGuideToHome = UIFocusGuide()
         view.addLayoutGuide(focusGuideToDissmis)
         view.addLayoutGuide(focusGuideToHome)
-
+        
         focusGuideToDissmis.leadingAnchor.constraint(equalTo: homeButton.trailingAnchor).isActive = true
         focusGuideToDissmis.trailingAnchor.constraint(equalTo: dismissButton.leadingAnchor).isActive = true
         focusGuideToDissmis.centerYAnchor.constraint(equalTo: homeButton.centerYAnchor).isActive = true
@@ -86,19 +100,22 @@ class HomeViewController: UIViewController {
         NSLayoutConstraint.activate([
             sidebar.sidebarLeadingConstraint,
             sidebar.widthAnchor.constraint(equalToConstant: sidebar.sidebarWidth),
-            sidebar.topAnchor.constraint(equalTo: view.topAnchor),
-            sidebar.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            sidebar.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            sidebar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
+        sidebar.delegate = self
     }
     
     func setupHomeButton() {
         view.addSubview(homeButton)
         NSLayoutConstraint.activate([
             homeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            homeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
+            homeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            homeButton.heightAnchor.constraint(equalToConstant: 70),
+            homeButton.widthAnchor.constraint(equalToConstant: 200)
         ])
         
-        homeButton.addTarget(self, action: #selector(toggleSidebar), for: .touchUpInside)
+        homeButton.addTarget(self, action: #selector(toggleSidebar), for: .primaryActionTriggered)
     }
     
     func setupDismissButton() {
@@ -118,13 +135,31 @@ class HomeViewController: UIViewController {
     
     @objc func toggleSidebar() {
         let isSidebarOpen = sidebar.sidebarLeadingConstraint.constant == 0
-        sidebar.sidebarLeadingConstraint.constant = isSidebarOpen ? -sidebar.sidebarWidth : 0
-        homeButton.isHidden = !isSidebarOpen
-        if !isSidebarOpen {
-            sidebar.menuItems[sidebar.currentFocusedItemIndex].becomeFirstResponder()
-        }
-        UIView.animate(withDuration: 0.3) {
+        
+        if isSidebarOpen {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.sidebar.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                self.sidebar.alpha = 0
+            }) { _ in
+                self.sidebar.sidebarLeadingConstraint.constant = -self.sidebar.sidebarWidth
+                self.sidebar.transform = .identity
+                self.sidebar.alpha = 1
+                self.homeButton.isHidden = false
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            self.sidebar.sidebarLeadingConstraint.constant = 0
             self.view.layoutIfNeeded()
+            sidebar.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            sidebar.alpha = 0
+            homeButton.isHidden = true
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.sidebar.transform = .identity
+                self.sidebar.alpha = 1
+            }) { _ in
+                self.sidebar.menuItems[self.sidebar.currentFocusedItemIndex].becomeFirstResponder()
+            }
         }
     }
     
@@ -132,35 +167,12 @@ class HomeViewController: UIViewController {
         if scrollView.contentOffset.x + scrollView.frame.size.width < scrollView.contentSize.width {
             scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x + scrollView.frame.size.width, y: 0), animated: true)
         } else {
-            sidebar.sidebarLeadingConstraint.constant = 0
-            homeButton.isHidden = true
-            sidebar.menuItems[sidebar.currentFocusedItemIndex].becomeFirstResponder()
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
+            toggleSidebar()
         }
     }
     
     @objc func handleSwipeRight() {
-        sidebar.sidebarLeadingConstraint.constant = -sidebar.sidebarWidth
-        homeButton.isHidden = false
-        homeButton.becomeFirstResponder()
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    @objc func handleSidebarItemTapped() {
-        sidebar.sidebarLeadingConstraint.constant = -sidebar.sidebarWidth
-        homeButton.isHidden = false
-        homeButton.becomeFirstResponder()
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    override var canBecomeFirstResponder: Bool {
-        return true
+        toggleSidebar()
     }
     
     override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
@@ -174,11 +186,24 @@ class HomeViewController: UIViewController {
         case .rightArrow:
             handleSwipeRight()
         case .upArrow:
-            sidebar.focusPreviousItem()
+            if sidebar.sidebarLeadingConstraint.constant == 0 {
+                sidebar.focusPreviousItem()
+            }
         case .downArrow:
-            sidebar.focusNextItem()
+            if sidebar.sidebarLeadingConstraint.constant == 0 {
+                sidebar.focusNextItem()
+            }
         default:
             break
         }
+    }
+}
+
+extension HomeViewController: SidebarDelegate {
+    func sidebarItemTapped(index: Int) {
+        sidebar.sidebarLeadingConstraint.constant = -sidebar.sidebarWidth
+        homeButton.isHidden = false
+        homeButton.becomeFirstResponder()
+        toggleSidebar()
     }
 }

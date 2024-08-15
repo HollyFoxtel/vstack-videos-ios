@@ -12,7 +12,7 @@ struct AdaptiveSidebarModifier: ViewModifier {
     
     @ViewBuilder
     func body(content: Content) -> some View {
-        if #available(tvOS 18.0, *) {
+        if #available(iOS 18.0, tvOS 18.0, *) {
             content
                 .tabViewStyle(.sidebarAdaptable)
         } else {
