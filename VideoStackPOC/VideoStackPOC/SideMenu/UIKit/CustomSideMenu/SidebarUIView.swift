@@ -24,15 +24,14 @@ class Sidebar: UIView {
     }
     
     func setupMenuItems() {
-        let items = [("Shows", "play.rectangle.fill"), ("Home", "house.fill"), ("Sports", "sportscourt.fill"),
-                     ("Search", "magnifyingglass"), ("Favourites", "star.fill"), ("My Kayo", "gearshape.fill")]
-        var previousButton: UIButton?
+        let items: [MenuItem] = KayoTab.allCases.map { $0.toMenuItem }
         
+        var previousButton: UIButton?
         for (index, item) in items.enumerated() {
             let button = UIButton(type: .system)
-            button.setTitle(item.0, for: .normal)
+            button.setTitle(item.name, for: .normal)
             button.setTitleColor(.white, for: .normal)
-            button.setImage(UIImage(systemName: item.1), for: .normal)
+            button.setImage(UIImage(systemName: item.icon), for: .normal)
             button.tintColor = .white
             button.contentHorizontalAlignment = .left
             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)

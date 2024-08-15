@@ -1,6 +1,31 @@
 import UIKit
 
-class HomeViewController: UIViewController {
+protocol BackgroundContent: UIViewController {
+    var dismissButton: UIButton { get }
+    
+    func setupBackgroundImage()
+    
+    func setupDismissButton()
+}
+
+extension BackgroundContent {
+    func setupBackgroundImage() {
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "beach_landscape")
+        backgroundImage.contentMode = .scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    func setupDismissButton() {
+        view.addSubview(dismissButton)
+        NSLayoutConstraint.activate([
+            dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dismissButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+}
+
+class HomeCustomViewController: UIViewController, BackgroundContent {
     let sidebarWidth: CGFloat = 250
     var sidebarLeadingConstraint: NSLayoutConstraint!
     var dismissAction: (() -> Void)?
@@ -43,26 +68,14 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "beach_landscape")
-        backgroundImage.contentMode = .scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
-        
-        view.backgroundColor = .white
-        
+        setupBackgroundImage()
         setupScrollView()
         setupSidebar()
         setupHomeButton()
         setupDismissButton()
         setupFocusGuide()
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeLeft))
-        swipeLeft.direction = .left
-        view.addGestureRecognizer(swipeLeft)
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight))
-        swipeRight.direction = .right
-        view.addGestureRecognizer(swipeRight)
+        setupGesture()
+        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .primaryActionTriggered)
     }
     
     func setupFocusGuide() {
@@ -82,6 +95,16 @@ class HomeViewController: UIViewController {
         focusGuideToHome.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor).isActive = true
         focusGuideToHome.heightAnchor.constraint(equalToConstant: 1).isActive = true
         focusGuideToHome.preferredFocusEnvironments = [homeButton]
+    }
+    
+    func setupGesture() {
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeLeft))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight))
+        swipeRight.direction = .right
+        view.addGestureRecognizer(swipeRight)
     }
     
     func setupScrollView() {
@@ -116,17 +139,6 @@ class HomeViewController: UIViewController {
         ])
         
         homeButton.addTarget(self, action: #selector(toggleSidebar), for: .primaryActionTriggered)
-    }
-    
-    func setupDismissButton() {
-        view.addSubview(dismissButton)
-        NSLayoutConstraint.activate([
-            dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dismissButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .primaryActionTriggered)
-        
     }
     
     @objc func dismissTapped() {
@@ -199,7 +211,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: SidebarDelegate {
+extension HomeCustomViewController: SidebarDelegate {
     func sidebarItemTapped(index: Int) {
         sidebar.sidebarLeadingConstraint.constant = -sidebar.sidebarWidth
         homeButton.isHidden = false

@@ -96,7 +96,7 @@ struct HomeContentView: View {
             .scrollClipDisabled()
             .frame(maxHeight: .infinity, alignment: .top)
             .fullScreenCover(isPresented: $showUIKitModal) {
-                SideMenuControllerRepresentable()
+                LSideMenuDemo()
                     .ignoresSafeArea()
             }
             
