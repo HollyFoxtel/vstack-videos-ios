@@ -15,7 +15,8 @@ struct HomeView: View {
                 .tag(KayoTab.home.id)
                 .toolbar(.hidden, for: .tabBar)
             
-            PlaceHolderView(tab: KayoTab.shows)
+            ShowsViewRepresentable()
+                .ignoresSafeArea()
                 .tabItem { Label(KayoTab.shows.description, systemImage: KayoTab.shows.icon) }
                 .tag(KayoTab.shows.id)
                 .toolbar(.hidden, for: .tabBar)
