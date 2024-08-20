@@ -369,6 +369,7 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
     private lazy var dataSource = ContentCollectionViewDataSource()
     private let viewModel: ShowsViewModel
     private lazy var filterView = FilterHeader()
+    private var lastFocusedIndexPath: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -426,6 +427,9 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldUpdateFocusIn context: UICollectionViewFocusUpdateContext) -> Bool {
+        if let indexPath = context.nextFocusedIndexPath {
+            lastFocusedIndexPath = indexPath
+        }
         return true
     }
 
@@ -436,9 +440,19 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         dataSource.tappedItem(at: indexPath)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setNeedsFocusUpdate()
+        updateFocusIfNeeded()
+    }
 
     override var preferredFocusEnvironments: [UIFocusEnvironment] {
-        [collectionView]
+        if let lastFocusedIndexPath = lastFocusedIndexPath,
+           let cell = collectionView.cellForItem(at: lastFocusedIndexPath) {
+            return [cell]
+        }
+        return [collectionView]
     }
 
     func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with _: UIFocusAnimationCoordinator) {
@@ -461,8 +475,26 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
             cell.contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
             collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: true)
         }
+       
+        if shouldUpdateFocusDisplay(context) {
+            self.setNeedsFocusUpdate()
+            self.updateFocusIfNeeded()
+        }
     }
 
+    private func shouldUpdateFocusDisplay(_ context: UICollectionViewFocusUpdateContext) -> Bool {
+        guard let lastFocusedIndexPath else {
+            return false
+        }
+        
+        if context.nextFocusedIndexPath != nil
+            && context.previouslyFocusedIndexPath != lastFocusedIndexPath {
+            return true
+        }
+        
+        return false
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         filterView.alpha = scrollView.contentOffset.y >= 300 ? 1 : 0
     }
