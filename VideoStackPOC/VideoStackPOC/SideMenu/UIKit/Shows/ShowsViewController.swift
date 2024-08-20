@@ -61,8 +61,6 @@ class ContentViewModel {
 
 class ContentCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     private(set) var sections: [ShowsSection] = []
-    
-    weak var heroDelegate: HeroCellDelegate? = nil
 
     func tappedItem(at indexPath: IndexPath) {
         sections[indexPath.section].cells[indexPath.row].tapped()
@@ -85,11 +83,7 @@ class ContentCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = sections[indexPath.section].cells[indexPath.row].configure(collectionView, indexPath)
-        if let heroCell = cell as? HeroCell {
-            heroCell.delegate = heroDelegate
-        }
-        return cell
+        sections[indexPath.section].cells[indexPath.row].configure(collectionView, indexPath)
     }
 }
 
@@ -370,7 +364,7 @@ class ShowsViewModel {
     }
 }
 
-class ShowsViewController: UIViewController, UICollectionViewDelegate, HeroCellDelegate {
+class ShowsViewController: UIViewController, UICollectionViewDelegate {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
     private lazy var dataSource = ContentCollectionViewDataSource()
     private let viewModel: ShowsViewModel
@@ -379,14 +373,12 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate, HeroCellD
     override func viewDidLoad() {
         super.viewDidLoad()
 //        navigationController?.navigationBar.barStyle = .black
-        setupFocusGuide()
         view.backgroundColor = Style.backgroundColor
         view.addSubview(collectionView)
         collectionView.backgroundColor = Style.backgroundColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = dataSource
         collectionView.delegate = self
-        dataSource.heroDelegate = self
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -431,28 +423,6 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate, HeroCellD
 
     func collectionView(_: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
         true
-    }
-    
-    private var leftFocusGuide: UIFocusGuide!
-    private func setupFocusGuide() {
-        leftFocusGuide = UIFocusGuide()
-        view.addLayoutGuide(leftFocusGuide)
-        
-        leftFocusGuide.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        leftFocusGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        leftFocusGuide.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        leftFocusGuide.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        leftFocusGuide.preferredFocusEnvironments = [collectionView]
-    }
-    
-    func heroCell(_ cell: HeroCell, didChangeIndexTo index: Int) {
-        if index == 0 {
-            leftFocusGuide.isEnabled = false
-        } else {
-            leftFocusGuide.isEnabled = true
-        }
-        setNeedsFocusUpdate()
-        updateFocusIfNeeded()
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldUpdateFocusIn context: UICollectionViewFocusUpdateContext) -> Bool {
@@ -531,27 +501,58 @@ struct HeroGroup: Equatable {
     }
 }
 
-protocol HeroCellDelegate: AnyObject {
-    func heroCell(_ cell: HeroCell, didChangeIndexTo index: Int)
+class FocusableView: UIView {
+    override var canBecomeFocused: Bool {
+        return true
+    }
+    
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        super.didUpdateFocus(in: context, with: coordinator)
+
+        if context.nextFocusedView == self {
+            layer.borderWidth = 4
+            layer.borderColor = UIColor.white.cgColor
+        } else {
+            layer.borderWidth = 0
+        }
+    }
 }
 
 class HeroCell: UICollectionViewCell {
     private var models: [HeroGroup.Item.View] = []
     private lazy var pageControl = UIPageControl()
     private lazy var label = UILabel()
-    weak var delegate: HeroCellDelegate?
+    private var leftFocusGuide: UIFocusGuide!
+    private var focusableView: FocusableView!
     
     var index = 0 {
         didSet {
             UIView.transition(with: contentView, duration: 0.3) {
-                self.contentView.backgroundColor = self.models[self.index].color
+                self.focusableView.backgroundColor = self.models[self.index].color
                 self.label.text = self.models[self.index].title
                 self.pageControl.currentPage = self.index
-                self.delegate?.heroCell(self, didChangeIndexTo: self.index)
+                self.updateFoucus()
             }
         }
     }
-
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        focusableView = FocusableView()
+        focusableView.isUserInteractionEnabled = true
+        focusableView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(focusableView)
+    }
+    
     @objc private func swipedLeft() {
         index = (index + 1) % pageControl.numberOfPages
     }
@@ -563,26 +564,27 @@ class HeroCell: UICollectionViewCell {
             index = pageControl.numberOfPages - 1
         }
     }
-
+    
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+        setupFocusableView()
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 24)
         label.shadowColor = .black
         label.shadowOffset = .init(width: 2, height: 2)
         label.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(label)
+        focusableView.addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            label.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
+            label.centerXAnchor.constraint(equalTo: focusableView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: focusableView.centerYAnchor),
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: focusableView.leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: focusableView.trailingAnchor, constant: -10),
         ])
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(pageControl)
+        focusableView.addSubview(pageControl)
         NSLayoutConstraint.activate([
-            pageControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            pageControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: focusableView.bottomAnchor, constant: -16),
+            pageControl.centerXAnchor.constraint(equalTo: focusableView.centerXAnchor),
         ])
     }
 
@@ -593,28 +595,22 @@ class HeroCell: UICollectionViewCell {
         label.text = item.views.first?.title
         let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipedLeft))
         leftSwipeGesture.direction = .left
-        contentView.addGestureRecognizer(leftSwipeGesture)
+        focusableView.addGestureRecognizer(leftSwipeGesture)
         let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipedRight))
         rightSwipeGesture.direction = .right
-        contentView.addGestureRecognizer(rightSwipeGesture)
-        contentView.isUserInteractionEnabled = true
+        focusableView.addGestureRecognizer(rightSwipeGesture)
+        focusableView.isUserInteractionEnabled = true
         index = 0
     }
     
     override var canBecomeFocused: Bool {
-        return true
+        return false
     }
-
-    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        super.didUpdateFocus(in: context, with: coordinator)
-        if context.nextFocusedView == self {
-            contentView.layer.borderWidth = 4
-            contentView.layer.borderColor = UIColor.white.cgColor
-        } else {
-            contentView.layer.borderWidth = 0
-        }
+    
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+        [focusableView]
     }
-
+    
     override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
         guard let press = presses.first else {
             super.pressesBegan(presses, with: event)
@@ -637,6 +633,34 @@ class HeroCell: UICollectionViewCell {
         default:
             super.pressesBegan(presses, with: event)
         }
+    }
+    
+    private func setupFocusGuide() {
+        leftFocusGuide = UIFocusGuide()
+        contentView.addLayoutGuide(leftFocusGuide)
+        
+        leftFocusGuide.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        leftFocusGuide.trailingAnchor.constraint(equalTo: focusableView.leadingAnchor).isActive = true
+        leftFocusGuide.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        leftFocusGuide.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        leftFocusGuide.preferredFocusEnvironments = [focusableView]
+    }
+    
+    private func setupFocusableView() {
+        NSLayoutConstraint.activate([
+            focusableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            focusableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            focusableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            focusableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        setupFocusGuide()
+    }
+    
+    private func updateFoucus() {
+        let isEnableFocusGuide = index != 0
+        leftFocusGuide.isEnabled = isEnableFocusGuide
     }
 }
 
