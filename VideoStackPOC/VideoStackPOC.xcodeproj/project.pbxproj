@@ -23,6 +23,8 @@
 		F64ED9FD2C6DE53000F7DFF2 /* HomeSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9FC2C6DE53000F7DFF2 /* HomeSplitViewController.swift */; };
 		F64ED9FF2C6DE77B00F7DFF2 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9FE2C6DE77B00F7DFF2 /* MenuViewController.swift */; };
 		F64EDA032C6DE79900F7DFF2 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EDA022C6DE79900F7DFF2 /* ContentViewController.swift */; };
+		F64EDA052C73471700F7DFF2 /* ShowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EDA042C73471700F7DFF2 /* ShowsViewController.swift */; };
+		F64EDA082C7347A500F7DFF2 /* ShowsViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EDA072C7347A500F7DFF2 /* ShowsViewRepresentable.swift */; };
 		F6A14A712C6C3FA20048BF2F /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61709EB2C6C3D8C00386A77 /* HomeContentView.swift */; };
 		F6A14A722C6C3FA80048BF2F /* HeroHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A702C6C3E9A0048BF2F /* HeroHeaderView.swift */; };
 		F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */; };
@@ -60,6 +62,8 @@
 		F64ED9FC2C6DE53000F7DFF2 /* HomeSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSplitViewController.swift; sourceTree = "<group>"; };
 		F64ED9FE2C6DE77B00F7DFF2 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		F64EDA022C6DE79900F7DFF2 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		F64EDA042C73471700F7DFF2 /* ShowsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsViewController.swift; sourceTree = "<group>"; };
+		F64EDA072C7347A500F7DFF2 /* ShowsViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsViewRepresentable.swift; sourceTree = "<group>"; };
 		F6A14A702C6C3E9A0048BF2F /* HeroHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderView.swift; sourceTree = "<group>"; };
 		F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldSnappingScrollTargetBehavior.swift; sourceTree = "<group>"; };
 		F6A14A752C6C41F80048BF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 		F64ED9F22C6D2CA400F7DFF2 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				F64EDA062C73471A00F7DFF2 /* Shows */,
 				F64ED9FB2C6DE51000F7DFF2 /* SplitSideMenu */,
 				F6A14A982C6CDF930048BF2F /* SideMenuControllerRepresentable.swift */,
 				F64ED9FA2C6DE4F300F7DFF2 /* CustomSideMenu */,
@@ -185,6 +190,15 @@
 				F64ED9FC2C6DE53000F7DFF2 /* HomeSplitViewController.swift */,
 			);
 			path = SplitSideMenu;
+			sourceTree = "<group>";
+		};
+		F64EDA062C73471A00F7DFF2 /* Shows */ = {
+			isa = PBXGroup;
+			children = (
+				F64EDA072C7347A500F7DFF2 /* ShowsViewRepresentable.swift */,
+				F64EDA042C73471700F7DFF2 /* ShowsViewController.swift */,
+			);
+			path = Shows;
 			sourceTree = "<group>";
 		};
 		F6A14A7D2C6C54E20048BF2F /* Latest Minis */ = {
@@ -314,10 +328,12 @@
 				F6A14A7A2C6C54820048BF2F /* LatestMinis.swift in Sources */,
 				F6A14A9B2C6CF0850048BF2F /* SidebarUIView.swift in Sources */,
 				F6A14A722C6C3FA80048BF2F /* HeroHeaderView.swift in Sources */,
+				F64EDA052C73471700F7DFF2 /* ShowsViewController.swift in Sources */,
 				D66A201E2C62FBB100853C44 /* ContentView.swift in Sources */,
 				F64ED9FD2C6DE53000F7DFF2 /* HomeSplitViewController.swift in Sources */,
 				F6A14A762C6C41F80048BF2F /* HomeView.swift in Sources */,
 				F6A14A782C6C4E080048BF2F /* Tabs.swift in Sources */,
+				F64EDA082C7347A500F7DFF2 /* ShowsViewRepresentable.swift in Sources */,
 				D66A202E2C6326FF00853C44 /* VideoPlayerManager.swift in Sources */,
 				D66A201C2C62FBB100853C44 /* VideoStackPOCApp.swift in Sources */,
 				F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */,

@@ -6,7 +6,7 @@ struct ShowsViewRepresentable: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
         
-        let vm = HomeViewModel(home: true) { _ in
+        let vm = ShowsViewModel(home: true) { _ in
 //            self?.showDetail()
         }
         

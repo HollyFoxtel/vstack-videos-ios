@@ -61,6 +61,8 @@ class ContentViewModel {
 
 class ContentCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     private(set) var sections: [ShowsSection] = []
+    
+    weak var heroDelegate: HeroCellDelegate? = nil
 
     func tappedItem(at indexPath: IndexPath) {
         sections[indexPath.section].cells[indexPath.row].tapped()
@@ -83,7 +85,11 @@ class ContentCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        sections[indexPath.section].cells[indexPath.row].configure(collectionView, indexPath)
+        let cell = sections[indexPath.section].cells[indexPath.row].configure(collectionView, indexPath)
+        if let heroCell = cell as? HeroCell {
+            heroCell.delegate = heroDelegate
+        }
+        return cell
     }
 }
 
@@ -130,7 +136,7 @@ enum Style {
 
 // Specific Implementation
 
-class HomeViewModel {
+class ShowsViewModel {
     enum NavigationAction {
         case showDetail
     }
@@ -364,21 +370,23 @@ class HomeViewModel {
     }
 }
 
-class ShowsViewController: UIViewController, UICollectionViewDelegate {
+class ShowsViewController: UIViewController, UICollectionViewDelegate, HeroCellDelegate {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
     private lazy var dataSource = ContentCollectionViewDataSource()
-    private let viewModel: HomeViewModel
+    private let viewModel: ShowsViewModel
     private lazy var filterView = FilterHeader()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        navigationController?.navigationBar.barStyle = .black
+        setupFocusGuide()
         view.backgroundColor = Style.backgroundColor
         view.addSubview(collectionView)
         collectionView.backgroundColor = Style.backgroundColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = dataSource
         collectionView.delegate = self
+        dataSource.heroDelegate = self
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -411,7 +419,7 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
         viewModel.contentViewModel.updateViewState()
     }
 
-    init(viewModel: HomeViewModel) {
+    init(viewModel: ShowsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -421,12 +429,34 @@ class ShowsViewController: UIViewController, UICollectionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func collectionView(_: UICollectionView, canFocusItemAt _: IndexPath) -> Bool {
+    func collectionView(_: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
         true
     }
+    
+    private var leftFocusGuide: UIFocusGuide!
+    private func setupFocusGuide() {
+        leftFocusGuide = UIFocusGuide()
+        view.addLayoutGuide(leftFocusGuide)
+        
+        leftFocusGuide.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        leftFocusGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        leftFocusGuide.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        leftFocusGuide.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        leftFocusGuide.preferredFocusEnvironments = [collectionView]
+    }
+    
+    func heroCell(_ cell: HeroCell, didChangeIndexTo index: Int) {
+        if index == 0 {
+            leftFocusGuide.isEnabled = false
+        } else {
+            leftFocusGuide.isEnabled = true
+        }
+        setNeedsFocusUpdate()
+        updateFocusIfNeeded()
+    }
 
-    override func shouldUpdateFocus(in _: UIFocusUpdateContext) -> Bool {
-        true
+    func collectionView(_ collectionView: UICollectionView, shouldUpdateFocusIn context: UICollectionViewFocusUpdateContext) -> Bool {
+        return true
     }
 
     func collectionView(_: UICollectionView, shouldSelectItemAt _: IndexPath) -> Bool {
@@ -501,16 +531,23 @@ struct HeroGroup: Equatable {
     }
 }
 
+protocol HeroCellDelegate: AnyObject {
+    func heroCell(_ cell: HeroCell, didChangeIndexTo index: Int)
+}
+
 class HeroCell: UICollectionViewCell {
     private var models: [HeroGroup.Item.View] = []
     private lazy var pageControl = UIPageControl()
     private lazy var label = UILabel()
-    private var index = 0 {
+    weak var delegate: HeroCellDelegate?
+    
+    var index = 0 {
         didSet {
             UIView.transition(with: contentView, duration: 0.3) {
                 self.contentView.backgroundColor = self.models[self.index].color
                 self.label.text = self.models[self.index].title
                 self.pageControl.currentPage = self.index
+                self.delegate?.heroCell(self, didChangeIndexTo: self.index)
             }
         }
     }
@@ -562,6 +599,44 @@ class HeroCell: UICollectionViewCell {
         contentView.addGestureRecognizer(rightSwipeGesture)
         contentView.isUserInteractionEnabled = true
         index = 0
+    }
+    
+    override var canBecomeFocused: Bool {
+        return true
+    }
+
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        super.didUpdateFocus(in: context, with: coordinator)
+        if context.nextFocusedView == self {
+            contentView.layer.borderWidth = 4
+            contentView.layer.borderColor = UIColor.white.cgColor
+        } else {
+            contentView.layer.borderWidth = 0
+        }
+    }
+
+    override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        guard let press = presses.first else {
+            super.pressesBegan(presses, with: event)
+            return
+        }
+        
+        switch press.type {
+        case .leftArrow:
+            if index > 0 {
+                swipedRight()
+            } else {
+                super.pressesBegan(presses, with: event)
+            }
+        case .rightArrow:
+            if index < models.count - 1 {
+                swipedLeft()
+            } else {
+                super.pressesBegan(presses, with: event)
+            }
+        default:
+            super.pressesBegan(presses, with: event)
+        }
     }
 }
 
