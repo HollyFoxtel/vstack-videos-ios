@@ -17,6 +17,11 @@
 		D66A20302C634AE600853C44 /* response.json in Resources */ = {isa = PBXBuildFile; fileRef = D66A202F2C634AE600853C44 /* response.json */; };
 		D66A20322C634E5A00853C44 /* feed.json in Resources */ = {isa = PBXBuildFile; fileRef = D66A20312C634E5A00853C44 /* feed.json */; };
 		D66A20342C6355E900853C44 /* CustomVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66A20332C6355E900853C44 /* CustomVideoPlayerView.swift */; };
+		F63884EA2C771B01007041FA /* InsetItemsGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63884E92C771B01007041FA /* InsetItemsGridViewController.swift */; };
+		F63884ED2C771B3E007041FA /* ViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63884EC2C771B3E007041FA /* ViewControllerRepresentable.swift */; };
+		F63884EF2C771B55007041FA /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63884EE2C771B55007041FA /* TextCell.swift */; };
+		F63884F12C771B75007041FA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63884F02C771B75007041FA /* Extensions.swift */; };
+		F63884F32C771C6D007041FA /* SportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63884F22C771C64007041FA /* SportsView.swift */; };
 		F64ED9F42C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F32C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift */; };
 		F64ED9F62C6D2CE900F7DFF2 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F52C6D2CE900F7DFF2 /* SidebarView.swift */; };
 		F64ED9F92C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64ED9F82C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift */; };
@@ -56,6 +61,11 @@
 		D66A20312C634E5A00853C44 /* feed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feed.json; sourceTree = "<group>"; };
 		D66A20332C6355E900853C44 /* CustomVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayerView.swift; sourceTree = "<group>"; };
 		F61709EB2C6C3D8C00386A77 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		F63884E92C771B01007041FA /* InsetItemsGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetItemsGridViewController.swift; sourceTree = "<group>"; };
+		F63884EC2C771B3E007041FA /* ViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		F63884EE2C771B55007041FA /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
+		F63884F02C771B75007041FA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F63884F22C771C64007041FA /* SportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsView.swift; sourceTree = "<group>"; };
 		F64ED9F32C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSidebarModifier.swift; sourceTree = "<group>"; };
 		F64ED9F52C6D2CE900F7DFF2 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		F64ED9F82C6D2D4D00F7DFF2 /* ScrollVisibilityModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollVisibilityModifier.swift; sourceTree = "<group>"; };
@@ -141,6 +151,7 @@
 			children = (
 				F6A14A932C6CA92B0048BF2F /* TileContainer.swift */,
 				F6A14A802C6C6EF70048BF2F /* Shows */,
+				F63884EB2C771B08007041FA /* Sports */,
 				F6A14A872C6C83340048BF2F /* Live */,
 				F6A14A7D2C6C54E20048BF2F /* Latest Minis */,
 				F6A14A772C6C4E080048BF2F /* Tabs.swift */,
@@ -151,6 +162,18 @@
 				F6A14A732C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		F63884EB2C771B08007041FA /* Sports */ = {
+			isa = PBXGroup;
+			children = (
+				F63884F22C771C64007041FA /* SportsView.swift */,
+				F63884EE2C771B55007041FA /* TextCell.swift */,
+				F63884F02C771B75007041FA /* Extensions.swift */,
+				F63884EC2C771B3E007041FA /* ViewControllerRepresentable.swift */,
+				F63884E92C771B01007041FA /* InsetItemsGridViewController.swift */,
+			);
+			path = Sports;
 			sourceTree = "<group>";
 		};
 		F64ED9F22C6D2CA400F7DFF2 /* UIKit */ = {
@@ -327,6 +350,7 @@
 				F6A14A892C6C83340048BF2F /* LiveChannels.swift in Sources */,
 				F6A14A7A2C6C54820048BF2F /* LatestMinis.swift in Sources */,
 				F6A14A9B2C6CF0850048BF2F /* SidebarUIView.swift in Sources */,
+				F63884EF2C771B55007041FA /* TextCell.swift in Sources */,
 				F6A14A722C6C3FA80048BF2F /* HeroHeaderView.swift in Sources */,
 				F64EDA052C73471700F7DFF2 /* ShowsViewController.swift in Sources */,
 				D66A201E2C62FBB100853C44 /* ContentView.swift in Sources */,
@@ -338,13 +362,17 @@
 				D66A201C2C62FBB100853C44 /* VideoStackPOCApp.swift in Sources */,
 				F6A14A742C6C3FFA0048BF2F /* FoldSnappingScrollTargetBehavior.swift in Sources */,
 				D66A20342C6355E900853C44 /* CustomVideoPlayerView.swift in Sources */,
+				F63884ED2C771B3E007041FA /* ViewControllerRepresentable.swift in Sources */,
+				F63884F32C771C6D007041FA /* SportsView.swift in Sources */,
 				F64ED9F62C6D2CE900F7DFF2 /* SidebarView.swift in Sources */,
+				F63884EA2C771B01007041FA /* InsetItemsGridViewController.swift in Sources */,
 				F64EDA032C6DE79900F7DFF2 /* ContentViewController.swift in Sources */,
 				F6A14A992C6CDF930048BF2F /* SideMenuControllerRepresentable.swift in Sources */,
 				F64ED9F42C6D2CC100F7DFF2 /* AdaptiveSidebarModifier.swift in Sources */,
 				F64ED9FF2C6DE77B00F7DFF2 /* MenuViewController.swift in Sources */,
 				F6A14A942C6CA92B0048BF2F /* TileContainer.swift in Sources */,
 				F6A14A712C6C3FA20048BF2F /* HomeContentView.swift in Sources */,
+				F63884F12C771B75007041FA /* Extensions.swift in Sources */,
 				F6A14A8B2C6CA1850048BF2F /* View+Extension.swift in Sources */,
 				D66A202A2C6309A100853C44 /* VerticalFeedView.swift in Sources */,
 			);

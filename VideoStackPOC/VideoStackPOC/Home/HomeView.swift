@@ -21,7 +21,7 @@ struct HomeView: View {
                 .tag(KayoTab.shows.id)
                 .toolbar(.hidden, for: .tabBar)
             
-            PlaceHolderView(tab: KayoTab.sports)
+            SportsView()
                 .tabItem { Label(KayoTab.sports.description, systemImage: KayoTab.sports.icon) }
                 .tag(KayoTab.sports.id)
                 .toolbar(.hidden, for: .tabBar)
